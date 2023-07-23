@@ -7,5 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Theme extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	public function memos()
+	{
+		return $this->hasMany(Memo::class);
+	}
+
+	public function formats()
+	{
+		return $this->hasMany(Format::class);
+	}
 }

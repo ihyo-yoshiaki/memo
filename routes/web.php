@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\FormatController;
+use App\Http\Controllers\MemoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +24,19 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::controller(ThemeController::class)->middleware(['auth'])->group(function(){
+	Route::get('/', 'select')->name('theme.select');  // select one theme
+	Route::get('themes/{theme}', 'index')->name('theme.index');  // show mesmos
+	Route::post('themes', 'access')->name('theme.access');  // redirect 
+});
+
+Route::controller(FormatController::class)->middleware(['auth'])->group(function(){
+
+});
+
+Route::controller(MemoController::class)->middleware(['auth'])->group(function(){
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
