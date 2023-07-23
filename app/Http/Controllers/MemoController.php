@@ -8,5 +8,8 @@ use App\Models\Theme;
 
 class MemoController extends Controller
 {
+	public function show(){
+		return view('memos.show');//->with(['items'] => $items);
+	}
 
 }

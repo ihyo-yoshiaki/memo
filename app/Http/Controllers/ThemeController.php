@@ -14,7 +14,8 @@ class ThemeController extends Controller
 
    public function index(Theme $theme)
    {
-	   return view('themes.index')->with(['memos'=> $theme->memos()->get()]);
+	   $other_themes = Theme::where('id', '<>', $theme->id);
+	   return view('themes.index')->with(['memos'=> $theme->memos()->get(), 'main_theme' => $theme, 'other_themes' => $other_themes->get()]);
    }
 
    public function access(Request $request, Theme $theme)
