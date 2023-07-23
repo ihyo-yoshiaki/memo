@@ -7,5 +7,20 @@ use App\Models\Theme;
 
 class ThemeController extends Controller
 {
-    //
+   public function select(Theme $theme)
+   {
+	   return view('themes.select')->with(['themes' => $theme->get()]);
+   }
+
+   public function index(Theme $theme)
+   {
+	   return view('themes.index')->with(['memos'=> $theme->memos()->get()]);
+   }
+
+   public function access(Request $request, Theme $theme)
+   {
+	   $theme_id = $request['theme'];
+	   return redirect()->route('theme.index', ['theme' => $theme_id]);
+   }
+   
 }

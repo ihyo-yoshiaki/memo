@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Memo extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	public function theme()
+	{
+		return $this->belongsTo(Theme::class);
+	}
 }
