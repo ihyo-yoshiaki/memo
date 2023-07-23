@@ -27,8 +27,8 @@ Route::get('/dashboard', function () {
 
 Route::controller(ThemeController::class)->middleware(['auth'])->group(function(){
 	Route::get('/', 'select')->name('theme.select');  // select one theme
-	Route::get('themes/{theme}', 'index')->name('theme.index');  // show mesmos
-	Route::post('themes', 'access')->name('theme.access');  // redirect 
+	Route::get('themes/{theme}', 'index')->name('theme.index');  // show memos of selected theme
+	Route::post('themes', 'access')->name('theme.access');  // redirect to 'theme.index'
 });
 
 Route::controller(FormatController::class)->middleware(['auth'])->group(function(){
@@ -36,6 +36,7 @@ Route::controller(FormatController::class)->middleware(['auth'])->group(function
 });
 
 Route::controller(MemoController::class)->middleware(['auth'])->group(function(){
+    Route::get('/themes/{theme}/{memo}', 'show')->name('memo.show');  // show contents of the memo 
 });
 
 Route::middleware('auth')->group(function () {
