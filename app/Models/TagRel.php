@@ -7,5 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class TagRel extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	public function memo()
+	{
+		return $this->belongsTo(Memo::class);
+	}
+
+	public function tag()
+	{
+		return $this->belongsTo(Tag::class);
+	}
 }

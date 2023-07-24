@@ -6,7 +6,8 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
-    <body>
+    <x-app-layout>
+        <body>
         <h1>Select Theme</h1>
 	<div class='themes'>
             <form action="{{ route('theme.access') }}" method="POST">
@@ -21,7 +22,8 @@
 	</div>
 	<div class=='create'>
             <a href="">Create new theme?</a>
-        </div>
-    </body>
+	</div>
+        </body>
+    </x-app-layout>
 </html>
 

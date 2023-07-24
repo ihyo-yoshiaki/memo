@@ -19,8 +19,8 @@ class Memo extends Model
 		return $this->hasMany(Text::class);
 	}
 
-	public function tags()
+	public function tag_rels()
 	{
-		return $this->hasMany(Tag::class);
+		return $this->hasMany(TagRel::class);
 	}
 }

@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Text extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	public function memo()
+	{
+		return $this->belongsTo(Memo::class);
+	}
 }

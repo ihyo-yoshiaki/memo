@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Theme;
+use Illuminate\Support\Facades\Auth;
 
 class ThemeController extends Controller
 {
    public function select(Theme $theme)
    {
-	   return view('themes.select')->with(['themes' => $theme->get()]);
+	   $user_id = Auth::user()->id;
+	   $themes = $theme->where('user_id', $user_id);
+	   return view('themes.select')->with(['themes' => $themes->get()]);
    }
 
    public function index(Theme $theme)
