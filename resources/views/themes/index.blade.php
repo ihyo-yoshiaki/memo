@@ -25,7 +25,8 @@
 	       <div class="theme">
 	           <a href="{{ route('theme.index', ['theme' => $other_theme->id]) }}">{{ $other_theme->name }}</a>
 	       </div>
-            @endforeach 
+	    @endforeach 
+            <a href="">add new theme</a>
         </div>
         <h1>Memo Name</h1>
 	<div class='memos'>

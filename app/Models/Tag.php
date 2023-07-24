@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	public function tag_rels()
+	{
+		return $this->hasMany(TagRel::class);
+	}
 }

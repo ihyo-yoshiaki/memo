@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::controller(ThemeController::class)->middleware(['auth'])->group(function(){
-	Route::get('/', 'select')->name('theme.select');  // select one theme
+	Route::get('/themes/select', 'select')->name('theme.select');  // select one theme
 	Route::get('themes/{theme}', 'index')->name('theme.index');  // show memos of selected theme
 	Route::post('themes', 'access')->name('theme.access');  // redirect to 'theme.index'
 });
