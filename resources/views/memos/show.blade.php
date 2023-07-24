@@ -16,7 +16,7 @@
             @endforeach
         </div>
 	<div class='footer'>
-            <a href="{{ route('theme.index', ['theme' => $theme->id]) }}">return</a>
+            <a href="{{ route('theme.index', ['theme' => $memo->theme->id]) }}">return</a>
         </div>
     </body>
 </html>
