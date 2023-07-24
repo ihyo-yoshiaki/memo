@@ -31,7 +31,7 @@
 	<div class='memos'>
 	@foreach ($memos as $memo)
 	    <div class="memo">
-                <a href="{{ route('memo.show', ['memo' => $memo->id, 'theme' => $main_theme->id]) }}">{{ $memo->title }}</a>
+                <a href="{{ route('memo.show', ['memo' => $memo->id]) }}">{{ $memo->title }}</a>
 	    </div>	
 	@endforeach
         </div>

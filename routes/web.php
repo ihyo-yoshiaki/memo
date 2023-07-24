@@ -36,7 +36,7 @@ Route::controller(FormatController::class)->middleware(['auth'])->group(function
 });
 
 Route::controller(MemoController::class)->middleware(['auth'])->group(function(){
-    Route::get('/themes/{theme}/{memo}', 'show')->name('memo.show');  // show contents of the memo 
+    Route::get('/memos/{memo}', 'show')->name('memo.show');  // show contents of the memo 
 });
 
 Route::middleware('auth')->group(function () {
