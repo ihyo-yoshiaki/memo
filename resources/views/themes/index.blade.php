@@ -17,13 +17,13 @@
             </div>
 	</div>
 	<div class="theme menu">
-            <h2>theme menue</h2>
+            <h2>theme menu</h2>
 	    <h4>current theme</h4>
                 <h3> {{ $main_theme->name }}</h3>
             <h4>select other theme</h4>
 	    @foreach ($other_themes as $other_theme)
 	       <div class="theme">
-	           <a href="">{{ $other_theme->name }}</a>
+	           <a href="{{ route('theme.index', ['theme' => $other_theme->id]) }}">{{ $other_theme->name }}</a>
 	       </div>
             @endforeach 
         </div>
