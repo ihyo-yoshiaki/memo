@@ -13,4 +13,14 @@ class Memo extends Model
 	{
 		return $this->belongsTo(Theme::class);
 	}
+
+	public function texts()
+	{
+		return $this->hasMany(Text::class);
+	}
+
+	public function tags()
+	{
+		return $this->hasMany(Tag::class);
+	}
 }
