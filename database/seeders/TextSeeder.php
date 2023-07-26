@@ -52,17 +52,5 @@ class TextSeeder extends Seeder
 		    'content' => 'やりがい',
 		    'updated_at' => new DateTime(),
 	    ]);
-	    DB::table('texts')->insert([
-		    'format_id' => 7,
-		    'memo_id' => 7,
-		    'content' => '先進的',
-		    'updated_at' => new DateTime(),
-	    ]);
-	    DB::table('texts')->insert([
-		    'format_id' => 7,
-		    'memo_id' => 8,
-		    'content' => '入門',
-		    'updated_at' => new DateTime(),
-	    ]);
     }
 }

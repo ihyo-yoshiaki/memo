@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-	    Schema::create('tag_rels', function (Blueprint $table) {
-	    $table->id();	     
-            $table->unsignedBigInteger('format_id');
-            $table->unsignedBigInteger('memo_id');
-            $table->unsignedBigInteger('tag_id');
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::create('texts', function (Blueprint $table) {
+		$table->id();		
+		$table->foreignId('format_id')->constrained()->onDelete('cascade');
+		$table->foreignId('memo_id')->constrained()->onDelete('cascade');
+		$table->text('content');
+		$table->timestamp('updated_at', 0)->nullable();
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tag_rels');
+        Schema::dropIfExists('texts');
     }
 };

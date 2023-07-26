@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('texts', function (Blueprint $table) {
+        Schema::create('formats', function (Blueprint $table) {
 		$table->id();
-		$table->unsignedBigInteger('format_id');
-		$table->unsignedBigInteger('memo_id');
-		$table->text('content');
-		$table->timestamp('updated_at', 0)->nullable();
+		$table->foreignId('theme_id')->constrained()->onDelete('cascade');
+		$table->foreignId('item_id')->constrained()->onDelete('cascade');
+		$table->string('name', 50);
+		$table->unsignedInteger('order');
+		$table->timestamps();
+		$table->softDeletes();
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('texts');
+        Schema::dropIfExists('formats');
     }
 };
