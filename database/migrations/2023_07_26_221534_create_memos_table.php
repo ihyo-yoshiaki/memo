@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('memos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('theme_id');
-            $table->string('title', 200);
-            $table->timestamps();
-            $table->softDeletes();
+	    $table->foreignId('theme_id')->constrained()->onDelete('cascade');
+	    $table->string('title', 200);
+	    $table->timestamps();
+	    $table->softDeletes();
         });
     }
 

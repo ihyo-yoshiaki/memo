@@ -14,6 +14,13 @@
                     <p>{{ $text->content }}</p>
 		</div>
             @endforeach
+	</div>
+	<div class='tags'>
+           @foreach ($tags as $tag)
+               <div class='tag'>
+                   <p>{{ $tag->tag_id }}</p>
+               </div>
+           @endforeach
         </div>
 	<div class='footer'>
             <a href="{{ route('theme.index', ['theme' => $memo->theme->id]) }}">return</a>

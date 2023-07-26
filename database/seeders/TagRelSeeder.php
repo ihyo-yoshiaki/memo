@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use DateTime;
-class TagRelsSeeder extends Seeder
+class TagRelSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -123,20 +123,6 @@ class TagRelsSeeder extends Seeder
 	    DB::table('tag_rels')->insert([
 		    'format_id' => 4,
 		    'memo_id' => 6,
-		    'tag_id' => 14,
-		    'created_at' => new DateTime(),
-		    'updated_at' => new DateTime(),
-	    ]);
-	    DB::table('tag_rels')->insert([
-		    'format_id' => 6,
-		    'memo_id' => 7,
-		    'tag_id' => 10,
-		    'created_at' => new DateTime(),
-		    'updated_at' => new DateTime(),
-	    ]);
-	    DB::table('tag_rels')->insert([
-		    'format_id' => 6,
-		    'memo_id' => 7,
 		    'tag_id' => 14,
 		    'created_at' => new DateTime(),
 		    'updated_at' => new DateTime(),
