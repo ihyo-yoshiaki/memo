@@ -8,7 +8,7 @@
     </head>
     <x-app-layout>
         <body>
-        <h1>Select Theme</h1>
+        <h1>テーマを選択してださい</h1>
 	<div class='themes'>
             <form action="{{ route('theme.access') }}" method="POST">
                 @csrf
@@ -21,7 +21,7 @@
 	    </form>
 	</div>
 	<div class=='create'>
-            <a href="">Create new theme?</a>
+            <a href="">新規テーマを作成しますか？</a>
 	</div>
         </body>
     </x-app-layout>

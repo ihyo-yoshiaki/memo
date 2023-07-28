@@ -2,28 +2,31 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <title>Blog</title>
+        <title>Memo</title>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
     <body>
-        <h1>{{ $memo->title }}</h1>
-	<div class='texts'>
-            @foreach ($texts as $text)
-		<div class=='text'>
-                    <p>{{ $text->content }}</p>
-		</div>
-            @endforeach
-	</div>
-	<div class='tags'>
-           @foreach ($tags as $tag)
-               <div class='tag'>
-                   <p>{{ $tag->tag_id }}</p>
-               </div>
+	<h1>{{ $memo->title }}</h1>
+	   @foreach ($formats as $format)
+	       <h5>{{ $format->name }}({{ $format->item->name }})</h5>
+               @if ($format->item->id === 1)
+	           @foreach ($format->tag_rels as $tag_rel )
+	               @if ($tag_rel->memo_id === $memo->id)
+                           <p>{{ $tag_rel->tag->name }}</p>
+                       @endif
+                   @endforeach
+	       @else
+		   @foreach ($format->texts as $text)		   
+		       @if ($text->memo_id === $memo->id)    
+                           <p>{{ $text->content }}</p>
+                       @endif
+                   @endforeach
+               @endif
            @endforeach
         </div>
 	<div class='footer'>
-            <a href="{{ route('theme.index', ['theme' => $memo->theme->id]) }}">return</a>
+            <a href="{{ route('theme.index', ['theme' => $memo->theme->id]) }}">戻る</a>
         </div>
     </body>
 </html>

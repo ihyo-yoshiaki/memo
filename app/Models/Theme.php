@@ -14,7 +14,7 @@ class Theme extends Model
 		return $this->hasMany(Memo::class);
 	}
 
-	public function formats()
+	public function Formats()
 	{
 		return $this->hasMany(Format::class);
 	}

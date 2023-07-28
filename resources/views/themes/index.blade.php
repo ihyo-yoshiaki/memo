@@ -8,27 +8,27 @@
     </head>
     <body>
 	<div class="memo menu">
-	    <h2>memo menu</h2>
+	    <h2>メモメニュー</h2>
             <div class="create_memo">
-	        <a href="">create new memo</a>
+	        <a href="">新規メモを作成</a>
 	    </div>
             <div class="add_items">
-	        <a href="">add items</a>
+	        <a href="">フォーマットに新規項目を追加</a>
             </div>
 	</div>
 	<div class="theme menu">
-            <h2>theme menu</h2>
-	    <h4>current theme</h4>
+            <h2>テーマメニュー</h2>
+	    <h4>現在のテーマ</h4>
                 <h3> {{ $main_theme->name }}</h3>
-            <h4>select other theme</h4>
+            <h4>他テーマを選択</h4>
 	    @foreach ($other_themes as $other_theme)
 	       <div class="theme">
 	           <a href="{{ route('theme.index', ['theme' => $other_theme->id]) }}">{{ $other_theme->name }}</a>
 	       </div>
 	    @endforeach 
-            <a href="">add new theme</a>
+            <a href="">新規テーマを作成</a>
         </div>
-        <h1>Memo Name</h1>
+        <h1>メモ</h1>
 	<div class='memos'>
 	@foreach ($memos as $memo)
 	    <div class="memo">
