@@ -13,4 +13,19 @@ class Format extends Model
 	{
 		return $this->belongsTo(Theme::class);
 	}
+
+	public function item()
+	{
+		return $this->belongsTo(Item::class);
+	}
+
+	public function tag_rels()
+	{
+		return $this->hasMany(TagRel::class);
+	}
+
+	public function texts()
+	{
+		return $this->hasMany(Text::class);
+	}
 }

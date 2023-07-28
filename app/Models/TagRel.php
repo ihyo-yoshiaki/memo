@@ -14,6 +14,11 @@ class TagRel extends Model
 		return $this->belongsTo(Memo::class);
 	}
 
+	public function format()
+	{
+		return $this->belongsTo(Format::class);
+	}
+
 	public function tag()
 	{
 		return $this->belongsTo(Tag::class);

@@ -10,11 +10,18 @@ use App\Models\Tag;
 
 class MemoController extends Controller
 {
-	public function show(Theme $theme, Memo $memo)
+	public function show(Memo $memo)
 	{
-		$texts = $memo->texts();
-		$tag_rels = $memo->tag_rels();
-		return view('memos.show')->with(['memo' => $memo->first(), 'theme' => $theme->first(), 'texts' => $texts->get(), 'tags' => $tag_rels->get()]);
+		$theme = $memo->theme()->first();
+		$formats = $theme->formats()->orderby('order', 'asc')->with(['item', 'tag_rels', 'texts']);
+		return view('memos.show')->with(['memo' => $memo, 'formats' => $formats->get()]);
 	}
+
+	public function select_tags(Format $format, Memo $memo)
+	{
+		//
+	}
+
+
 
 }
