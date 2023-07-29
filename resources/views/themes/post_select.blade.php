@@ -10,7 +10,7 @@
         <body>
         <h1>テーマを選択してださい</h1>
 	<div class='themes'>
-            <form action="{{ route('theme.access') }}" method="post">
+            <form action="{{ route('theme.access') }}" method="POST">
                 @csrf
     	        <select name="theme">
                 @foreach ($themes as $theme)
@@ -21,7 +21,7 @@
 	    </form>
 	</div>
 	<div class=='create'>
-            <a href="{{ route('format.createFirst') }}">新規テーマを作成する</a>
+            <a href="">新規テーマを作成しますか？</a>
 	</div>
         </body>
     </x-app-layout>
