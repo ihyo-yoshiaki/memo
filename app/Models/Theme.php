@@ -18,4 +18,9 @@ class Theme extends Model
 	{
 		return $this->hasMany(Format::class);
 	}
+
+	protected $fillable = [
+		'name',
+		'user_id',
+	];
 }

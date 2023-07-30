@@ -28,4 +28,11 @@ class Format extends Model
 	{
 		return $this->hasMany(Text::class);
 	}
+
+	protected $fillable = [
+		'theme_id',
+		'item_id',
+		'name',
+		'order',
+	];
 }

@@ -11,7 +11,7 @@
 	<div class='items'>
             <form action="{{ route('format.createSecond')}}" method="post">
 	        @csrf
-		<textarea name="theme[name]" placeholder="新規テーマのタイトルを入力してください"></textarea>
+		<input type="text"  name="themeName" placeholder="新規テーマのタイトルを入力してください" value="{{ $themeName  }}"></textarea>
 		<h3>新規テーマの項目を設定してください</h3>
                 @if (!is_null($tmpItems))
 		@foreach ($tmpItems as $tmpItem)

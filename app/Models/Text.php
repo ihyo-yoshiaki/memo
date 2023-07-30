@@ -9,6 +9,8 @@ class Text extends Model
 {
 	use HasFactory;
 
+	protected $torches = ['memo'];
+
 	public function memo()
 	{
 		return $this->belongsTo(Memo::class);
