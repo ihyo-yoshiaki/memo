@@ -26,7 +26,7 @@
 	           <a href="{{ route('theme.index', ['theme' => $other_theme->id]) }}">{{ $other_theme->name }}</a>
 	       </div>
 	    @endforeach 
-            <a href="">新規テーマを作成</a>
+            <a href="{{ route('format.create') }}">新規テーマを作成</a>
         </div>
         <h1>メモ</h1>
 	<div class='memos'>

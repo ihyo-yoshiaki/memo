@@ -3,42 +3,65 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
+use App\Models\Theme;
+use App\Models\Format;
 
 class FormatController extends Controller
 {
 	public function createFirst()	
 	{
-		return view('formats.create')->with(['tmpItems' => []]);
+		return view('formats.create')->with(['tmpItems' => [], 'themeName' => ""]);
 	}
 
 	public function createSecond(Request $request)
 	{
 		$action = $request['action'];
+		$themeName = $request['themeName'];
+		$tmpItems = $request['tmpItems'];
 		if($action === 'add'){
 			$items = Item::all();
-			$tmpItems = $request['tmpItems'];
 			$newItem = array('name' => "", 'itemId' => 1);
 			if (is_null($tmpItems)){
 				$tmpItems = [$newItem];
 			}else{
 				array_push($tmpItems, $newItem);
 			}
-			return view('formats.create')->with(['tmpItems' => $tmpItems, 'items' => $items ]);
+			return view('formats.create')->with(['themeName' => $themeName, 'tmpItems' => $tmpItems, 'items' => $items ]);
 		}elseif($action === 'store'){
-			redirect (route('theme.store'))->with(['tmpItems' => $request['tmpItems']]);
+			$this->store($themeName, $tmpItems);
+			return redirect()->route('theme.select');
 		}else{
-			$deleteId = $request['action'];
-                        $tmpItems = $request['tmpItems'];
-			unset($tmpItems[$deleteId]);
 			$items = Item::all();
-			return view('formats.create')->with(['tmpItems' => $tmpItems, 'items' => $items]);
+			$deleteId = $request['action'];
+			unset($tmpItems[$deleteId]);
+			return view('formats.create')->with(['themeName' => $themeName, 'tmpItems' => $tmpItems, 'items' => $items]);
 		}
 	}
 
-	public function store($tmp_items)
+	public function store($newThemeName, $newItems)
 	{
-		return redirect(route('theme.select'));
+		// formats, themes
+		$theme = new Theme();
+		$format = new Format;
+
+		$user_id = Auth::user()->id;
+		$theme->fill([
+			'name' => $newThemeName,
+			'user_id' => $user_id,
+		])->save();
+		$theme_id = Theme::latest()->first()->id;
+		$count = 1;
+		foreach ($newItems as $newItem){
+			$format->fill([
+				'item_id' => $newItem['itemId'],
+				'theme_id' => $theme_id,
+				'name' => $newItem['name'],
+				'order' => $count,
+			])->save();
+			$count += 1;
+		}
 	}
 
 	public function edit(Request $request)
