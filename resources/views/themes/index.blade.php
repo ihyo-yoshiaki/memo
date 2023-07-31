@@ -10,7 +10,7 @@
 	<div class="memo menu">
 	    <h2>メモメニュー</h2>
             <div class="create_memo">
-	        <a href="">新規メモを作成</a>
+	        <a href="{{ route('memo.createFirst', ['theme' => $main_theme->id]) }}">新規メモを作成</a>
 	    </div>
             <div class="add_items">
 	        <a href="">フォーマットに新規項目を追加</a>
@@ -26,13 +26,13 @@
 	           <a href="{{ route('theme.index', ['theme' => $other_theme->id]) }}">{{ $other_theme->name }}</a>
 	       </div>
 	    @endforeach 
-            <a href="{{ route('format.create') }}">新規テーマを作成</a>
+            <a href="{{ route('format.createFirst') }}">新規テーマを作成</a>
         </div>
         <h1>メモ</h1>
 	<div class='memos'>
 	@foreach ($memos as $memo)
 	    <div class="memo">
-                <a href="{{ route('memo.show', ['memo' => $memo->id]) }}">{{ $memo->title }}</a>
+                <a href="{{ route('memo.show', ['theme' => $main_theme->id, 'memo' => $memo->id]) }}">{{ $memo->title }}</a>
 	    </div>	
 	@endforeach
         </div>

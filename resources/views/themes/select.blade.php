@@ -11,7 +11,7 @@
         <h1>テーマを選択してださい</h1>
 	<div class='themes'>
             <form action="{{ route('theme.access') }}" method="post">
-                @csrf
+	    @csrf
     	        <select name="theme">
                 @foreach ($themes as $theme)
                     <option value="{{ $theme->id }}">{{ $theme->name }}</option>
