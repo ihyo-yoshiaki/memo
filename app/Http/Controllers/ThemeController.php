@@ -22,7 +22,7 @@ class ThemeController extends Controller
 	   return view('themes.index')->with(['memos'=> $theme->memos()->get(), 'main_theme' => $theme, 'other_themes' => $other_themes->get()]);
    }
 
-   public function access(Request $request, Theme $theme)
+   public function access(Request $request)
    {
 	   $theme_id = $request['theme'];
 	   return redirect()->route('theme.index', ['theme' => $theme_id]);

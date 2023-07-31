@@ -28,7 +28,7 @@ Route::get('/dashboard', function () {
 Route::controller(ThemeController::class)->middleware(['auth'])->group(function(){
 	Route::get('/themes/select', 'select')->name('theme.select');  // select one theme
 	//Route::get('/themes/{theme}', 'index')->name('theme.index');
-	Route::get('/themes/{theme}', 'index')->name('theme.index');  // show memos of selected theme
+	Route::get('/themes/{theme}/memos', 'index')->name('theme.index');  // show memos of selected theme
 	Route::post('/themes', 'access')->name('theme.access');  // redirect to 'theme.index'
 });
 
@@ -41,7 +41,11 @@ Route::controller(FormatController::class)->middleware(['auth'])->group(function
 });
 
 Route::controller(MemoController::class)->middleware(['auth'])->group(function(){
-    Route::get('/memos/{memo}', 'show')->name('memo.show');  // show contents of the memo 
+	Route::get('/themes/{theme}/memos/create', 'createFirst')->name('memo.createFirst');
+	Route::post('/themes/{theme}/memos/create', 'createSecond')->name('memo.createSecond');
+	Route::get('/themes/{theme}/memos/{memo}', 'show')->name('memo.show');  // show contents of the memo 
+	//Route::get('/themes/{theme}/memos/create', 'create')->name('memo.create');  // use only when create
+	Route::post('/themes/{theme}/memos/{memo}/edit', 'edit')->name('memo.edit');  // 
 });
 
 Route::middleware('auth')->group(function () {
