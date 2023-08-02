@@ -23,9 +23,11 @@
                    <div class="oldTag">
 		      <h5>既存タグから選択</h5>
 		      <select name="oldTagIds[{{ $idx }}]">
-                       <option select="selected">-----</option>
+		       <option select="selected">-----</option>
 		       @foreach ($format->tag_rels as $tag_rel)
-	                  <option value="{{ $tag_rel->tag->id }}">{{ $tag_rel->tag->name }}</option>
+		          @if (! isset($memo[$idx]['oldTags'][$tag_rel->tag->id]))
+			      <option value="{{ $tag_rel->tag->id }}">{{ $tag_rel->tag->name }}</option>
+			  @endif
 		       @endforeach
 		       </select>
                        <button type="submit" name="action[{{ $idx }}]" value="oldTag">追加</button>
@@ -38,11 +40,11 @@
                           <button type="submit" name="action[{{ $idx }}][deleteNew]" value="{{ $newTag }}">{{ $newTag }}</button>
 			  @endforeach
 		       @endif
-		       <input type="hidden" name="memo[{{ $idx }}][oldTagIds]" />
-                       @if (! is_null($memo[$idx]['oldTagIds']))
-                       @foreach ($memo[$idx]['oldTagIds'] as $oldTagId)
-			  <input type="hidden" name="memo[{{ $idx }}][oldTagIds][]" value="{{ $oldTagId }}" />
-                          <button type="submit" name="action[{{ $idx }}][deleteOld]" value="{{ $oldTagId }}">{{ $oldTagId }}</button>
+		       <input type="hidden" name="memo[{{ $idx }}][oldTags]" />
+                       @if (! is_null($memo[$idx]['oldTags']))
+                       @foreach ($memo[$idx]['oldTags'] as $oldTagId => $oldTagName)
+			  <input type="hidden" name="memo[{{ $idx }}][oldTags][{{ $oldTagId }}]" value="{{ $oldTagName }}" />
+                          <button type="submit" name="action[{{ $idx }}][deleteOld]" value="{{ $oldTagId }}">{{ $oldTagName }}</button>
 			  @endforeach
 		       @endif
 		  </div>

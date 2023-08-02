@@ -24,11 +24,11 @@
                           <p>{{ $newTag }}</p>
 			  @endforeach
 		       @endif
-		       <input type="hidden" name="memo[{{ $idx }}][oldTagIds]">
-                       @if (! is_null($memo[$idx]['oldTagIds']))
-                       @foreach ($memo[$idx]['oldTagIds'] as $oldTagId)
-			  <input type="hidden" name="memo[{{ $idx }}][oldTagIds][]" value="{{ $oldTagId }}" />
-                          <p>{{ $oldTagId }}</p>
+		       <input type="hidden" name="memo[{{ $idx }}][oldTags]">
+                       @if (! is_null($memo[$idx]['oldTags']))
+                       @foreach ($memo[$idx]['oldTags'] as $oldTagId => $oldTagName)
+			  <input type="hidden" name="memo[{{ $idx }}][oldTags][{{ $oldTagId}}]" value="{{ $oldTagName }}" />
+                          <p>{{ $oldTagName }}</p>
 			  @endforeach
 		       @endif
 		  </div>

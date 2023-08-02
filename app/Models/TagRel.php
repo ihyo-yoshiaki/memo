@@ -9,7 +9,13 @@ class TagRel extends Model
 {
 	use HasFactory;
 
-        protected $torches = ['memo'];
+	protected $torches = ['memo'];
+
+	protected $fillable = [
+		'format_id',
+		'memo_id',
+		'tag_id',
+	];
 
 	public function memo()
 	{

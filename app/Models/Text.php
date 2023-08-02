@@ -9,7 +9,15 @@ class Text extends Model
 {
 	use HasFactory;
 
+        const CREATED_AT = NULL;
+
 	protected $torches = ['memo'];
+         
+	protected $fillable = [
+		'memo_id',
+		'format_id',
+		'content',
+	];
 
 	public function memo()
 	{
