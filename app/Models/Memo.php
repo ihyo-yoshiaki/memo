@@ -23,4 +23,9 @@ class Memo extends Model
 	{
 		return $this->hasMany(TagRel::class);
 	}
+
+	protected $fillable = [
+		'title',
+		'theme_id',
+	];
 }

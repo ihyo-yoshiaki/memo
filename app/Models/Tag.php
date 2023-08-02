@@ -9,6 +9,10 @@ class Tag extends Model
 {
 	use HasFactory;
 
+	protected $fillable = [
+		'name',
+	];
+
 	public function tag_rels()
 	{
 		return $this->hasMany(TagRel::class);

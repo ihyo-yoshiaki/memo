@@ -43,8 +43,7 @@ class FormatController extends Controller
 	public function store($newThemeName, $newItems)
 	{
 		// formats, themes
-		$theme = new Theme();
-		$format = new Format;
+		$theme = new Theme;
 
 		$user_id = Auth::user()->id;
 		$theme->fill([
@@ -54,6 +53,7 @@ class FormatController extends Controller
 		$theme_id = Theme::latest()->first()->id;
 		$count = 1;
 		foreach ($newItems as $newItem){
+			$format = new Format;
 			$format->fill([
 				'item_id' => $newItem['itemId'],
 				'theme_id' => $theme_id,
