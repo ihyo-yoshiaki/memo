@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\MemoRequest;
 use App\Models\Memo;
 use App\Models\Theme;
 use App\Models\Format;
@@ -25,10 +26,10 @@ class MemoController extends Controller
 		$memo = array('title' => "");
 		foreach ($formats as $format){
 			if ($format->item_id === 1){
-				$remains = $format->tag_rels;
-				$memo[$format->order-1] = array('newTags' => [], 'oldTags' => [], 'remainIds' => $remains);
+				$memo['oldTags'][$format->order-1] = null;
+			        $memo['newTags'][$format->order-1] = [];
 			}else{
-				$memo[$format->order-1] = array('text' => "");
+				$memo['text'][$format->order-1] = "";
 			}
 		
 		}
@@ -37,12 +38,12 @@ class MemoController extends Controller
 		return view('memos.create')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
 	}
 
-	public function createSecond(Request $request, Theme $theme){
+	public function createSecond(MemoRequest $request, Theme $theme){
 		$formats = $this->getFormats($theme);
 		$actions = $request['action'];
 		$memo = $request['memo'];
-		$newTags = $request['newTags'];
-		$oldTagIds = $request['oldTagIds'];
+		$newTag = $request['newTag'];
+		$oldTagId = $request['oldTagId'];
 		//dd($request->input());
 	//	dd($memo);
 		// array_keys($memo) -> ['title', 0, 1, 2, ...]
@@ -55,21 +56,21 @@ class MemoController extends Controller
          	}else{
 		foreach ($actions as $idx => $action){
 			if ($action === "newTag"){
-				$memo[$idx]['newTags'][] =  $newTags[$idx];
+				$memo['newTags'][$idx][] =  $newTag[$idx];
 			}elseif ($action === "oldTag"){
-				if (!($oldTagIds[$idx] === "-----")){
-					$tagName = Tag::find($oldTagIds[$idx])->name;
-					$memo[$idx]['oldTags'][$oldTagIds[$idx]] = $tagName;
+				if (!($oldTagId === "-----")){
+					$tagName = Tag::find($oldTagId[$idx])->name;
+					$memo['oldTags'][$idx][$oldTagId[$idx]] = $tagName;
 				}
 			}elseif ($action === "None"){
 				//
 			}else{
 				foreach ($action as $delete => $val){
 					if ($delete === "deleteOld" ){
-						unset($memo[$idx]['oldTags'][$val]);
+						unset($memo['oldTags'][$idx][$val]);
 					}else{
-						$memo[$idx]['newTags'] = array_diff($memo[$idx]['newTags'], array($val));
-						$memo[$idx]['newTags'] = array_values($memo[$idx]['newTags']);
+						$memo['newTags'][$idx] = array_diff($memo['newTags'][$idx], array($val));
+						$memo['newTags'][$idx] = array_values($memo['newTags'][$idx]);
 					}
 				}
 			}
