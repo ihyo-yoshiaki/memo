@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Theme;
 use App\Models\Format;
+use App\Http\Requests\FormatRequest;
 
 class FormatController extends Controller
 {
@@ -52,6 +53,7 @@ class FormatController extends Controller
 		])->save();
 		$theme_id = Theme::latest()->first()->id;
 		$count = 1;
+		if (! is_null($newItems)){
 		foreach ($newItems as $newItem){
 			$format = new Format;
 			$format->fill([
@@ -61,6 +63,7 @@ class FormatController extends Controller
 				'order' => $count,
 			])->save();
 			$count += 1;
+		}
 		}
 	}
 
