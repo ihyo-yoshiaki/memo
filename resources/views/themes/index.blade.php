@@ -19,7 +19,8 @@
 	<div class="theme menu">
             <h2>テーマメニュー</h2>
 	    <h4>現在のテーマ</h4>
-                <h3> {{ $main_theme->name }}</h3>
+		<h3> {{ $main_theme->name }}</h3>
+                <a href="{{ route('format.editFirst', ['theme' => $main_theme->id]) }}">フォーマットを編集する</a>
             <h4>他テーマを選択</h4>
 	    @foreach ($other_themes as $other_theme)
 	       <div class="theme">
