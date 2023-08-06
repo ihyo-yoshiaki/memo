@@ -36,7 +36,8 @@ Route::controller(FormatController::class)->middleware(['auth'])->group(function
 	Route::get('/formats/cerate', 'createFirst')->name('format.createFirst');
 	Route::post('/foramts/create', 'createSecond')->name('format.createSecond');
 	//Route::get('/formats', 'store')->name('format.store');
-	Route::get('/formats/{theme}/edit', 'edit')->name('format.edit');  // show edit 
+	Route::get('/formats/{theme}/edit', 'editFirst')->name('format.editFirst');
+	Route::post('/formats/{theme}/edit', 'editSecond')->name('format.editSecond');
 	Route::put('/formats/{theme}', 'update')->name('format.update');
 });
 

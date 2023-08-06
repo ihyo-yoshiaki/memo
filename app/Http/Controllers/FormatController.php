@@ -16,7 +16,7 @@ class FormatController extends Controller
 		return view('formats.create')->with(['tmpItems' => [], 'themeName' => ""]);
 	}
 
-	public function createSecond(Request $request)
+	public function createSecond(FormatRequest $request)
 	{
 		$action = $request['action'];
 		$themeName = $request['themeName'];
@@ -67,10 +67,56 @@ class FormatController extends Controller
 		}
 	}
 
-	public function edit(Request $request)
+	public function editFirst(Theme $theme)
 	{
-		$request = [];
-		return view('themes.edit')->with(['items' => $request]);
+		// process
+		//   1. edit format in edit page
+		//   2. show new format in confirm page
+		//   3. update related tables once after user complete to edit and confirm
+		//      <-> update related tables each time when user edit one of items of format 
+		// need to reorder if delItems is not null, existing item is deleted
+		// need to reorder if newItems is inserted into exiting items. implement if possible
+		// need to reorder if order of existing items is changed. implement if possible
+		$formats = $theme->formats()->get()->sortby('order');
+		$newFormats = array();  // key is order, values contain name, item_id, label \in {new, old, del}
+		foreach ($formats as $format){
+			$item_name = Item::find($format->item_id)->name;
+			$newFormats[(int)$format->order] = array('name' => $format->name, 'item_id' => $format->item_id, 'format_id' => $format->id, 'label' => 'old');
+		}
+		return view('formats.edit')->with(['theme' => $theme, 'newFormats' => $newFormats, 'items' => Item::all()]);
+	}
+
+	public function editSecond(Request $request, Theme $theme)
+	{
+		$actions = $request['action'];
+		$newFormats = $request['newFormats'];
+		$n = count($newFormats);
+		if ($actions === 'store'){
+
+			//
+		}else{
+			foreach ($actions as $order => $action){
+				if ($action === 'new'){
+					for ($i=$n+1; $i>$order; $i--){ // tail is $n+1
+						$newFormats[$i] = $newFormats[$i-1];
+					} 
+					$newFormats[$order] = array('name' => "", 'item_id' => 1, 'format_id' => null,  'label' => 'new');
+				}elseif ($action === 'del'){
+					if ( $newFormats[$order]['label'] === 'new'){
+						for ($i=$order; $i<$n; $i++){
+							$newFormats[$i] = $newFormats[$i+1];
+						}
+						unset($newFormats[$n]);
+					}else{
+						$newFormats[$order]['label'] = 'del';
+					}
+				}elseif ($action === 'rec'){
+					$newFormats[$order]['label'] = 'old';
+				}
+			}
+		}
+		//dd($newFormats);
+                return view('formats.edit')->with(['theme' => $theme, 'newFormats' => $newFormats, 'items' => Item::all()]);
 	}
 			
 }

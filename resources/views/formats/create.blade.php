@@ -11,7 +11,7 @@
 	<div class='items'>
             <form action="{{ route('format.createSecond')}}" method="post">
 	    @csrf 
-		<input type="text"  name="themeName" placeholder="新規テーマのタイトルを入力してください" value="{{ $themeName  }}"></textarea> 
+		<input type="text"  name="themeName" placeholder="新規テーマのタイトルを入力してください" value="{{ $themeName  }}"></input> 
 		<p class="error__title" style="color:red">{{ $errors->first('themeName') }}</p>
                 <p class="error__title" style="color:red">{{ $errors->first('themeName.required.string.max:50')}}</p>
 		<h3>新規テーマの項目を設定してください</h3>
