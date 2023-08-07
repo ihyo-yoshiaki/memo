@@ -78,12 +78,8 @@ class MemoController extends Controller
 		}
 		}
 		return view('memos.create')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
-	}
-
-	public function select_tags(Format $format, Memo $memo)
-	{
-		//
-	}
+        }
+	
 
 	public function getFormats(Theme $theme)
 	{
@@ -125,7 +121,7 @@ class MemoController extends Controller
 					}
 				}
 
-				// add existed tag
+				// add existing tag
 				if (! is_null($memo['oldTags'][$idx])){
 					foreach ($memo['oldTags'][$idx] as $oldTagId => $oldTagName){
 						$newTagRel = new TagRel;
@@ -151,6 +147,12 @@ class MemoController extends Controller
 			}	
 		}
 
+	}
+
+	public function delete(Theme $theme, Memo $memo)
+        {
+		$memo->delete();
+		return redirect(route('theme.index', ['theme' => $theme->id]));
 	}
 
 

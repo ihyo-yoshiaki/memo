@@ -35,7 +35,6 @@ Route::controller(ThemeController::class)->middleware(['auth'])->group(function(
 Route::controller(FormatController::class)->middleware(['auth'])->group(function(){
 	Route::get('/formats/cerate', 'createFirst')->name('format.createFirst');
 	Route::post('/foramts/create', 'createSecond')->name('format.createSecond');
-	//Route::get('/formats', 'store')->name('format.store');
 	Route::get('/formats/{theme}/edit', 'editFirst')->name('format.editFirst');
 	Route::post('/formats/{theme}/edit', 'editSecond')->name('format.editSecond');
 	Route::put('/formats/{theme}', 'update')->name('format.update');
@@ -45,8 +44,9 @@ Route::controller(MemoController::class)->middleware(['auth'])->group(function()
 	Route::get('/themes/{theme}/memos/create', 'createFirst')->name('memo.createFirst');
 	Route::post('/themes/{theme}/memos/create', 'createSecond')->name('memo.createSecond');
 	Route::get('/themes/{theme}/memos/{memo}', 'show')->name('memo.show');  // show contents of the memo 
-	//Route::get('/themes/{theme}/memos/create', 'create')->name('memo.create');  // use only when create
-	Route::post('/themes/{theme}/memos/{memo}/edit', 'edit')->name('memo.edit');  // 
+	Route::get('/themes/{theme}/memos/{memo}/edit', 'editFirst')->name('memo.editFirst');  // 
+	//Route::post('/themes/{theme}/memos/{memo}/edit', 'editSecond')->name('memo.editSecond');
+        Route::delete('themes/{theme}/memos/{memo}', 'delete')->name('memo.delete');
 });
 
 Route::middleware('auth')->group(function () {
