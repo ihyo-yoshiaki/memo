@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
-    use HasFactory;
+	use HasFactory;
+
+	public function formats()
+	{
+		return $this->hasMany(Format::class);
+	}
 }

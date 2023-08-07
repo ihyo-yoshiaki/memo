@@ -10,15 +10,15 @@
 	<h1>{{ $memo->title }}</h1>
 	   @foreach ($formats as $format)
 	       <h5>{{ $format->name }}({{ $format->item->name }})</h5>
-               @if ($format->item->id === 1)
+               @if ($format->item->id == 1)
 	           @foreach ($format->tag_rels as $tag_rel )
-	               @if ($tag_rel->memo_id === $memo->id)
+	               @if ($tag_rel->memo_id == $memo->id)
                            <p>{{ $tag_rel->tag->name }}</p>
                        @endif
                    @endforeach
 	       @else
 		   @foreach ($format->texts as $text)		   
-		       @if ($text->memo_id === $memo->id)    
+		       @if ($text->memo_id == $memo->id)    
                            <p>{{ $text->content }}</p>
                        @endif
                    @endforeach

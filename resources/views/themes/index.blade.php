@@ -12,9 +12,6 @@
             <div class="create_memo">
 	        <a href="{{ route('memo.createFirst', ['theme' => $main_theme->id]) }}">新規メモを作成</a>
 	    </div>
-            <div class="add_items">
-	        <a href="">フォーマットに新規項目を追加</a>
-            </div>
 	</div>
 	<div class="theme menu">
             <h2>テーマメニュー</h2>

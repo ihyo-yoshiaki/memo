@@ -17,24 +17,24 @@
 		  @if ($format->item->id === 1)
                   <input type="hidden" name="action[{{ $idx }}]" value="None" /> 
 　　　　　　　　　　<div class="tags">
-		       <input type="hidden" name="memo[{{ $idx }}][newTags]">
-                       @if (! is_null($memo[$idx]['newTags']))
-		       @foreach ($memo[$idx]['newTags'] as $newTag)
-			  <input type="hidden" name="memo[{{ $idx }}][newTags][]" value="{{ $newTag }}" />
+		       <input type="hidden" name="memo[newTags][{{ $idx }}]">
+                       @if (! is_null($memo['newTags'][$idx]))
+		       @foreach ($memo['newTags'][$idx] as $newTag)
+			  <input type="hidden" name="memo[newTags][{{ $idx }}][]" value="{{ $newTag }}" />
                           <p>{{ $newTag }}</p>
 			  @endforeach
 		       @endif
-		       <input type="hidden" name="memo[{{ $idx }}][oldTags]">
-                       @if (! is_null($memo[$idx]['oldTags']))
-                       @foreach ($memo[$idx]['oldTags'] as $oldTagId => $oldTagName)
-			  <input type="hidden" name="memo[{{ $idx }}][oldTags][{{ $oldTagId}}]" value="{{ $oldTagName }}" />
+		       <input type="hidden" name="memo[oldTags][{{ $idx }}]">
+                       @if (! is_null($memo['oldTags'][$idx]))
+                       @foreach ($memo['oldTags'][$idx] as $oldTagId => $oldTagName)
+			  <input type="hidden" name="memo[oldTags][{{ $idx }}][{{ $oldTagId}}]" value="{{ $oldTagName }}" />
                           <p>{{ $oldTagName }}</p>
 			  @endforeach
 		       @endif
 		  </div>
 		  @else
-		     <input type="hidden" name="memo[{{ $idx }}][text]" value="{{ $memo[$idx]['text'] }}" /> 
-		     <p>{{ $memo[$idx]['text'] }}</p>
+		     <input type="hidden" name="memo[text][{{ $idx }}]" value="{{ $memo['text'][$idx] }}" /> 
+		     <p>{{ $memo['text'][$idx] }}</p>
                @endif
            @endforeach
 	</div>

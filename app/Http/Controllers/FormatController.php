@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Theme;
 use App\Models\Format;
+use App\Models\Text;
 use App\Http\Requests\FormatRequest;
 
 class FormatController extends Controller
@@ -91,9 +92,9 @@ class FormatController extends Controller
 		$actions = $request['action'];
 		$newFormats = $request['newFormats'];
 		$n = count($newFormats);
-		if ($actions === 'store'){
-
-			//
+		if ($actions === 'update'){
+			$this->update($theme, $newFormats);
+			return redirect(route('theme.index', ['theme' => $theme->id]));
 		}else{
 			foreach ($actions as $order => $action){
 				if ($action === 'new'){
@@ -114,11 +115,73 @@ class FormatController extends Controller
 					$newFormats[$order]['label'] = 'old';
 				}
 			}
+			return view('formats.edit')->with(['theme' => $theme, 'newFormats' => $newFormats, 'items' => Item::all()]);
 		}
-		//dd($newFormats);
-                return view('formats.edit')->with(['theme' => $theme, 'newFormats' => $newFormats, 'items' => Item::all()]);
+	}
+
+	public function update(Theme $theme, $newFormats)
+	{
+		if (! is_null($newFormats)){
+			// 1. remove format whose label is 'del'
+			// 2. reorder newFormats
+			// 3. update formats table
+			$n = count($newFormats);
+
+			// 1. and 2.
+			for ($order=$n; $order>=1; $order--){
+				if ($newFormats[$order]['label'] === 'del'){
+					$delFormat = $newFormats[$order];
+					$delFormat = Format::find($newFormats[$order]['format_id']);
+					$delFormat->delete();
+					$tmpN = count($newFormats);
+					for ($i=$order; $i<$tmpN; $i++){
+						$newFormats[$i] = $newFormats[$i+1];
+					}
+					unset($newFormats[$tmpN]);
+				}
+			}
+			//dd($newFormats);
+			// 3.
+			foreach ($newFormats as $order => $format){
+				if ($format['label'] === 'old'){
+					//dd($format);
+					$updFormat = Format::find($format['format_id']);
+					$updFormat->fill([
+						'theme_id' => $theme->id,
+						'item_id' => (int)$format['item_id'],
+						'name' => $format['name'],
+						'order' => (int)$order,
+					])->save();
+				}elseif ($format['label'] === 'new'){
+					$newFormat = new Format;
+					$newFormat->fill([
+						'theme_id' => $theme->id,
+						'item_id' => (int)$format['item_id'],
+						'name' => $format['name'],
+						'order' => (int)$order,
+					])->save();
+					if ($format['item_id'] == 2){ // add new text of all memos to texts table
+						$memos = $theme->memos;
+						foreach ($memos as $memo){
+							$newText = new Text;
+							$newText->fill([
+								'format_id' => $newFormat->id,
+								'memo_id' => $memo->id,
+								'content' => "",
+							])->save();
+						}
+					}
+				}
+			}
+
+		}else{
+			dd(Format::all());
+		}
+		return redirect(route('theme.index', ['theme' => $theme->id]));
 	}
 			
 }
+
+
 
 // array_key_exists('Mike', $array)
