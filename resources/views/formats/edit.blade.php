@@ -57,8 +57,8 @@
 		<?php $nl = count($newFormats) + 1 ?>
 		<button type="submit" name="action[{{ $nl }}]" value="new">項目を追加する</button>
                 @endif
-		<div class="store">
-                    <button type="submit" name="action" value="store">フォーマットを保存する</button>
+		<div class="update">
+                    <button type="submit" name="action" value="update">フォーマットを保存する</button>
                 </div>
 	    </form>
         </div>

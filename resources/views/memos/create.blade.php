@@ -29,7 +29,7 @@
                    <div class="oldTag">
 		      <h5>既存タグから選択</h5>
 		      <select name="oldTagId[{{ $idx }}]">
-		       <option select="selected">-----</option>
+		       <option value="-1" select="selected">-----</option>
 		       @foreach ($format->tag_rels as $tag_rel)
 		          @if (! isset($memo['oldTags'][$idx][$tag_rel->tag->id]))
 			      <option value="{{ $tag_rel->tag->id }}">{{ $tag_rel->tag->name }}</option>

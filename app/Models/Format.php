@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Format extends Model
 {
 	use HasFactory;
+	use SoftDeletes;
 	
 	public function theme()
 	{
@@ -27,6 +29,14 @@ class Format extends Model
 	public function texts()
 	{
 		return $this->hasMany(Text::class);
+	}
+
+	public static function booted()
+	{
+		static::deleted(function ($format){
+			$format->texts()->delete();
+			$format->tag_rels()->delete();
+		});
 	}
 
 	protected $fillable = [

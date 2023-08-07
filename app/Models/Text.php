@@ -9,7 +9,8 @@ class Text extends Model
 {
 	use HasFactory;
 
-        const CREATED_AT = NULL;
+	const CREATED_AT = NULL;
+	const DELETED_AT = NULL;
 
 	protected $torches = ['memo'];
          

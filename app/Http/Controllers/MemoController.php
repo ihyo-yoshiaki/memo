@@ -49,6 +49,7 @@ class MemoController extends Controller
 		// array_keys($memo) -> ['title', 0, 1, 2, ...]
 		// $memo[0] -> ['newTags' => [...], 'oldTags' => ...[]] or ['text' => "..."]
 		if ($actions === "confirm"){
+			//dd($memo);
 			return view('memos.confirm')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
 		}elseif ($actions === "store"){
 			$this->store($formats, $theme->id, $memo);
@@ -58,7 +59,7 @@ class MemoController extends Controller
 			if ($action === "newTag"){
 				$memo['newTags'][$idx][] =  $newTag[$idx];
 			}elseif ($action === "oldTag"){
-				if (!($oldTagId === "-----")){
+				if (!($oldTagId[$idx] == -1)){
 					$tagName = Tag::find($oldTagId[$idx])->name;
 					$memo['oldTags'][$idx][$oldTagId[$idx]] = $tagName;
 				}
@@ -91,6 +92,7 @@ class MemoController extends Controller
 	}
 
 	public function store($formats, $theme_id, $memo){
+		//dd($memo);
 		// add new data to memos table
 		$newMemo = new Memo;
 		$newMemo->fill([
@@ -105,8 +107,8 @@ class MemoController extends Controller
 			if ($format->item_id == 1){
 
 				// add new tag
-				if (! is_null($memo[$idx]['newTags'])){
-					foreach ($memo[$idx]['newTags'] as  $newTagName){
+				if (! is_null($memo['newTags'][$idx])){
+					foreach ($memo['newTags'][$idx] as  $newTagName){
 						// add new data to tags table
 						$newTag = new Tag;
 						$newTag->fill([
@@ -124,8 +126,8 @@ class MemoController extends Controller
 				}
 
 				// add existed tag
-				if (! is_null($memo[$idx]['oldTags'])){
-					foreach ($memo[$idx]['oldTags'] as $oldTagId => $oldTagName){
+				if (! is_null($memo['oldTags'][$idx])){
+					foreach ($memo['oldTags'][$idx] as $oldTagId => $oldTagName){
 						$newTagRel = new TagRel;
 						$newTagRel->fill([
 							'format_id' => $format->id,
@@ -137,10 +139,14 @@ class MemoController extends Controller
 			}else{
 				// add new data to texts table
 				$newText = new Text;
+				$content = $memo['text'][$idx];
+				if (is_null($content)){
+					$content = "";
+				}
 				$newText->fill([
 					'memo_id' => $newMemoId,
 					'format_id' => $format->id,
-					'content' => $memo[$idx]['text'],
+					'content' => $content,
 				])->save();
 			}	
 		}

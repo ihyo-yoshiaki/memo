@@ -41,4 +41,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function themes()
+    {
+	    return $this->hasMany(Theme::class);
+    }
+
+
+    public static function booted()
+    {
+	    static::deleted(function ($user){
+		    $user->themes()->delete();
+	    });
+    }
 }
