@@ -31,9 +31,24 @@
 	@foreach ($memos as $memo)
 	    <div class="memo">
                 <a href="{{ route('memo.show', ['theme' => $main_theme->id, 'memo' => $memo->id]) }}">{{ $memo->title }}</a>
-	    </div>	
+	    </div>
+	    <div class="delete-button">
+	    <form action="{{ route('memo.delete', ['theme' => $main_theme->id, 'memo' => $memo->id]) }}" id="form_{{ $memo->id }}" method="post">
+	    @csrf
+	    @method('DELETE')
+	    <button type="button" onclick="deleteMemo({{ $memo->id }})">削除</button>
+            </form>
+            </div>	
 	@endforeach
         </div>
     </body>
+    <script>
+        function deleteMemo(id) {
+                'use strict'
+                if (confirm('削除すると復元できません。\n本当に削除しますか？')) {
+                    document.getElementById(`form_${id}`).submit();
+		}
+	}
+     </script>
 </html>
 
