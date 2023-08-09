@@ -6,6 +6,7 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
+    <x-app-layout>
         <body>
 	<h1>フォーマットの作成</h1>
 	<div class='items'>
@@ -41,6 +42,7 @@
 	    </form>
         </div>
 	</body>
+    </x-app-layout>
         <div class="footer">
             <a href="{{ route('theme.select') }}">戻る</a>
         </div>

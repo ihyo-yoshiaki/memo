@@ -6,6 +6,7 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
+    <x-app-layout>
         <body>
 	<h1>フォーマットの作成</h1>
 	<div class='items'>
@@ -26,6 +27,7 @@
                 <button type="submit" value="send">項目を追加</button>
 	    </form>
 	</div>
-        </body>
+	</body>
+    </x-app-layout>
 </html>
 

@@ -7,6 +7,9 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
     <x-app-layout>
+	<x-slot name="header">
+            テーマ選択
+        </x-slot>
         <body>
         <h1>テーマを選択してださい</h1>
 	<div class='themes'>
@@ -17,11 +20,11 @@
                     <option value="{{ $theme->id }}">{{ $theme->name }}</option>
 		@endforeach
 		</select>
-                <button type="submit" value="send">決定</button>
+                <button type="submit" value="send" class="btn btn-blue">決定</button>
 	    </form>
 	</div>
 	<div class=='create'>
-            <a href="{{ route('format.createFirst') }}">新規テーマを作成する</a>
+            <a href="{{ route('format.createFirst') }}" class="text-blue-500 underline hover:text-blue-700">新規テーマを作成する</a>
 	</div>
         </body>
     </x-app-layout>
