@@ -6,6 +6,10 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
+    <x-app-layout>
+        <x-slot name="header">
+            メモ一覧
+        </x-slot>
     <body>
 	<div class="memo menu">
 	    <h2>メモメニュー</h2>
@@ -42,6 +46,7 @@
 	@endforeach
         </div>
     </body>
+     </x-app-layout>
     <script>
         function deleteMemo(id) {
                 'use strict'

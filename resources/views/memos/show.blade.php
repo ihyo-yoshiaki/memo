@@ -4,8 +4,12 @@
         <meta charset="utf-8">
         <title>Memo</title>
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
+    <x-app-layout>
+    <x-slot name="header">
+        メモ閲覧
+    </x-slot>
     <body>
 	<h1>{{ $memo->title }}</h1>
 	   @foreach ($formats as $format)
@@ -29,5 +33,6 @@
             <a href="{{ route('theme.index', ['theme' => $memo->theme->id]) }}">戻る</a>
         </div>
     </body>
+    </x-app-layout>
 </html>
 

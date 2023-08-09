@@ -6,6 +6,10 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
+    <x-app-layout>
+    <x-slot name="header">
+    新規メモ内容確認
+    </x-slot>
     <body>
         <form action="{{ route('memo.createSecond', ['theme' => $theme_id]) }}" method="post">
 	@csrf
@@ -49,5 +53,6 @@
             <a href="{{ route('theme.index', ['theme' => $theme_id]) }}">メモ選択画面に戻る</a>
         </div>
     </body>
+    </x-app-layout>
 </html>
 
