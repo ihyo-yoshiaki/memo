@@ -109,7 +109,7 @@ class MemoController extends Controller
                 if ($actions === "confirm"){
 			return view('memos.editConfirm')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
 		}elseif ($actions === "update"){
-			$this->store($formats, $theme->id, $memo);						
+			$this->update($formats, $theme->id, $memo);						
 			return redirect(route('theme.index', ['theme' => $theme->id]));
 		}elseif ($actions === "back"){
 			//
@@ -212,7 +212,80 @@ class MemoController extends Controller
 
 	}
 
-	public function delete(Theme $theme, Memo $memo)
+	public function update($formats, $theme_id, $memo){
+		// add new data to memos table
+			$newMemo = Memo::find($memo['id']);
+			$newMemo->fill([
+ 				'title' => $memo['title'],
+				'theme_id' => $theme_id,
+			])->save();
+			// add to texts, tags, tag_rels 
+				foreach ($formats as $format){
+					$idx = $format->order;
+					if ($format->item_id == 1){
+						// add new tag
+		                                 if (! is_null($memo['newTags'][$idx])){
+							 foreach ($memo['newTags'][$idx] as  $newTagName){
+								 // add new data to tags table
+                                                                 $newTag = new Tag;
+								 $newTag->fill([
+									 'name' => $newTagName,
+								 ])->save();
+								 //add new data to tag_rels table
+								 $newTagRel = new TagRel;
+								 $newTagRel->fill([
+									 'format_id' => $format->id,
+									 'memo_id' => $memo['id'],
+									 'tag_id' => $newTag->id,
+								 ])->save();
+							 }
+						 }
+						 // add existing tag
+						 if (! is_null($memo['oldTags'][$idx])){
+							 // label \in {'rem', 'new', 'del'}
+							 // if label is 'rem', nothing to do
+							 // if label is 'new', add new tag_rel to tag_rels table
+							 // if label is 'del', remove tag_rel from tag_rels table and need to remove tag from tags table in case subject tag doesn't have related data in tag_rels table
+							 foreach ($memo['oldTags'][$idx] as $oldTagId => $oldTagArray){
+								 $tmpTagRels = $format->tag_rels;
+								 if ($oldTagArray['label'] === 'new'){
+								 $newTagRel = new TagRel;
+								 $newTagRel->fill([
+									 'format_id' => $format->id,
+									 'memo_id' => $memo['id'],
+									 'tag_id' => $oldTagId,
+								 ])->save();
+								 }elseif ($oldTagArray['label'] === 'del'){
+									 $delTagRels = $tmpTagRels->where('tag_id', $oldTagId);
+									 $tagRelCount = count($delTagRels);
+									 if ($tagRelCount == 1){
+										 Tag::destroy($oldTagId);
+									 }elseif ($tagRelCount > 1){
+										 $delTagRel = $delTagRels->where('memo_id', $memo['id'])->first();
+										 $delTagRel->delete();
+									 }else{
+										 dd($tagRelCount);
+									 }
+								 }
+							 }
+						 }
+					}else{
+						// add new data to texts table
+						$newText = new Text;
+						$content = $memo['text'][$idx];
+						if (is_null($content)){
+							$content = "";
+						}
+						$newText->fill([
+							'memo_id' => $memo['id'],
+							'format_id' => $format->id,
+							'content' => $content,
+						])->save();
+					}
+				}
+	}
+
+        public function delete(Theme $theme, Memo $memo)
         {
 		$memo->delete();
 		return redirect(route('theme.index', ['theme' => $theme->id]));

@@ -46,7 +46,7 @@
                   @endif
 		  @endforeach
         <div class="confirm-button">
-	<button type="submit" name="action" value="confirm" class="bg-gray-500 font-semibold text-white py-1 px-4 rounded">メモを保存</button>
+	<button type="submit" name="action" value="update" class="bg-gray-500 font-semibold text-white py-1 px-4 rounded">メモを保存</button>
 	</div>
         <div class="back-button">
 	<button type="submit" name="action" value="back" class="bg-gray-500 font-semibold text-white py-1 px-4 rounded">メモ編集画面に戻る</button>
