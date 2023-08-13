@@ -17,15 +17,21 @@
 		<?php $n = count($newFormats)?>
 		@for ($order=1; $order <= $n ; $order++)
 		<?php $newFormat = $newFormats[$order] ?>
-		<button type="submit" name="action[{{ $order }}]" value="new">項目を追加する</button>
-		    <h4>項目名</h4>
-		    @if ($newFormat['label'] === 'new' or $newFormat['label'] === 'old')
+                <div class="add-button">
+		<button type="submit" name="action[{{ $order }}]" value="new" class="bg-gray-500 font-semibold text-white py-2 px-4 rounded">項目を追加する</button>
+                </div>
+		@if ($newFormat['label'] === 'new')
+		    <h4>項目名（新規項目）</h4>
 		    <input type="text" name="newFormats[{{ $order }}][name]" placeholder="項目名を入力してください" value="{{ $newFormat["name"] }}"/>
-		    <button type="submit" name="action[{{ $order }}]" value="del">削除</button>
+		    <button type="submit" name="action[{{ $order }}]" value="del" class="bg-gray-500 font-semibold text-white py-2 px-4 rounded">削除</button>
+		    @elseif ($newFormat['label'] === 'old')
+		    <h4>項目名（既存項目）</h4>
+		    <input type="text" name="newFormats[{{ $order }}][name]" placeholder="項目名を入力してください" value="{{ $newFormat["name"] }}"/>
+		    <button type="submit" name="action[{{ $order }}]" value="del" class="bg-gray-500 font-semibold text-white py-2 px-4 rounded">削除</button>
 		    @else
 		    <h5 style="color:gray">{{ $newFormat['name'] }}（削除）</h5>
                     <input type="hidden" name="newFormats[{{ $order }}][name]" value="{{ $newFormat['name'] }}" />
-		    <button type="submit" name="action[{{ $order }}]" value="rec"> 復元</button>
+		    <button type="submit" name="action[{{ $order }}]" value="rec" class="bg-gray-500 font-semibold text-white py-2 px-4 rounded"> 復元</button>
 		    @endif
 		    @if ($newFormat['label'] === 'new' or $newFormat['label'] === 'old')
 		    <h4>項目属性</h4>
@@ -36,7 +42,6 @@
                         <input type="hidden" name="newFormats[{{ $order }}][item_id]" value="{{ $newFormat['item_id'] }}" />
                         <input type="hidden" name="newFormats[{{ $order }}][label]" value="old" />
                         @elseif ($newFormat['label'] === 'new')
-                        <p>新規項目</p>
                         <select name="newFormats[{{ $order }}][item_id]">
                         @foreach ($items as $item)
                              @if ($item->id == $newFormat['item_id'])
@@ -56,17 +61,18 @@
                         @endif
 		    @endfor
 		<?php $nl = count($newFormats) + 1 ?>
-		<button type="submit" name="action[{{ $nl }}]" value="new">項目を追加する</button>
+                <div class="add-buton">
+		<button type="submit" name="action[{{ $nl }}]" value="new" class="bg-gray-500 font-semibold text-white py-2 px-4 rounded">項目を追加する</button>
+                </div>
                 @endif
 		<div class="update">
-                    <button type="submit" name="action" value="update">フォーマットを保存する</button>
+                    <button type="submit" name="action" value="update" class="bg-gray-500 font-semibold text-white py-2 px-4 rounded">フォーマットを保存する</button>
                 </div>
 	    </form>
-        </div>
 	</body>
-    </x-app-layout>
         <div class="footer">
-            <a href="{{ route('theme.select') }}">戻る</a>
-        </div>
+            <a href="{{ route('theme.index', ['theme' => $theme]) }}" class="bg-gray-500 font-semibold text-white py-2 px-4 rounded">戻る</a>
+	</div>
+    </x-app-layout>
 </html>
 

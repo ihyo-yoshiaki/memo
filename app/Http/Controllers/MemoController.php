@@ -26,15 +26,12 @@ class MemoController extends Controller
 		$memo = array('title' => "");
 		foreach ($formats as $format){
 			if ($format->item_id === 1){
-				$memo['oldTags'][$format->order-1] = null;
-			        $memo['newTags'][$format->order-1] = [];
+				$memo['oldTags'][$format->order] = null;
+			        $memo['newTags'][$format->order] = [];
 			}else{
-				$memo['text'][$format->order-1] = "";
-			}
-		
+				$memo['text'][$format->order] = "";
+			}		
 		}
-		//dd($memo);
-		
 		return view('memos.create')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
 	}
 
@@ -44,42 +41,110 @@ class MemoController extends Controller
 		$memo = $request['memo'];
 		$newTag = $request['newTag'];
 		$oldTagId = $request['oldTagId'];
-		//dd($request->input());
-	//	dd($memo);
 		// array_keys($memo) -> ['title', 0, 1, 2, ...]
 		// $memo[0] -> ['newTags' => [...], 'oldTags' => ...[]] or ['text' => "..."]
 		if ($actions === "confirm"){
-			//dd($memo);
-			return view('memos.confirm')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
+			return view('memos.createConfirm')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
 		}elseif ($actions === "store"){
 			$this->store($formats, $theme->id, $memo);
 			return redirect(route('theme.index', ['theme' => $theme->id]));
-         	}else{
-		foreach ($actions as $idx => $action){
-			if ($action === "newTag"){
-				$memo['newTags'][$idx][] =  $newTag[$idx];
-			}elseif ($action === "oldTag"){
-				if (!($oldTagId[$idx] == -1)){
-					$tagName = Tag::find($oldTagId[$idx])->name;
-					$memo['oldTags'][$idx][$oldTagId[$idx]] = $tagName;
-				}
-			}elseif ($action === "None"){
-				//
-			}else{
-				foreach ($action as $delete => $val){
-					if ($delete === "deleteOld" ){
-						unset($memo['oldTags'][$idx][$val]);
-					}else{
-						$memo['newTags'][$idx] = array_diff($memo['newTags'][$idx], array($val));
-						$memo['newTags'][$idx] = array_values($memo['newTags'][$idx]);
+		}else{
+			foreach ($actions as $idx => $action){
+				if ($action === "newTag"){
+					$memo['newTags'][$idx][] =  $newTag[$idx];
+				}elseif ($action === "oldTag"){
+					if (!($oldTagId[$idx] == -1)){
+						$tagName = Tag::find($oldTagId[$idx])->name;
+						$memo['oldTags'][$idx][$oldTagId[$idx]] = $tagName;
+					}
+				}elseif ($action === "None"){
+					//
+				}else{
+					foreach ($action as $delete => $val){
+						if ($delete === "deleteOld" ){
+							unset($memo['oldTags'][$idx][$val]);
+						}else{
+							$memo['newTags'][$idx] = array_diff($memo['newTags'][$idx], array($val));
+							$memo['newTags'][$idx] = array_values($memo['newTags'][$idx]);
+						}
 					}
 				}
 			}
 		}
-		}
 		return view('memos.create')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
+	}
+
+	public function editFirst(Theme $theme, Memo $memo)
+	{
+		$formats = $this->getFormats($theme);
+		$newMemo = array('id' => $memo->id, 'title' => $memo->title);
+		$tag_rels = $memo->tag_rels;
+		$texts = $memo->texts;
+		foreach ($formats as $format){
+			if ($format->item_id === 1){
+				$tmp_tag_rels = $tag_rels->where('format_id', $format->id);
+				$newMemo['oldTags'][$format->order] = array();
+				foreach ($tmp_tag_rels as $tag_rel){
+					$newMemo['oldTags'][$format->order][$tag_rel->tag->id] = array('name' => $tag_rel->tag->name, 'label' => 'rem');  // label \in {'rem', 'del', 'new'}
+				}
+				$newMemo['newTags'][$format->order] = null;
+			}else{
+				$text =  $texts->where('format_id', $format->id)->first()->toArray();
+				$newMemo['text'][$format->order] = $text['content'];
+			}
+		}
+                return view('memos.edit')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $newMemo]);
         }
-	
+
+
+	public function editSecond(MemoRequest $request, Theme $theme, $memo_id){
+		$formats = $this->getFormats($theme);
+		$actions = $request['action'];
+		$memo = $request['memo'];
+		$memo['id'] = (int)$memo_id;
+		$newTag = $request['newTag'];
+		$oldTagId = $request['oldTagId'];
+		// array_keys($memo) -> ['title', 0, 1, 2, ...]
+                // $memo[0] -> ['newTags' => [...], 'oldTags' => ...[]] or ['text' => "..."]
+                if ($actions === "confirm"){
+			return view('memos.editConfirm')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
+		}elseif ($actions === "update"){
+			$this->store($formats, $theme->id, $memo);						
+			return redirect(route('theme.index', ['theme' => $theme->id]));
+		}elseif ($actions === "back"){
+			//
+		}else{
+			foreach ($actions as $idx => $action){
+				if ($action === "newTag"){
+					$memo['newTags'][$idx][] =  $newTag[$idx];
+				}elseif ($action === "oldTag"){
+					if (!($oldTagId[$idx] == -1)){
+						$tagName = Tag::find($oldTagId[$idx])->name;
+						$memo['oldTags'][$idx][$oldTagId[$idx]] = array('name' => $tagName, 'label' => 'new');
+					}
+				}elseif ($action === "None"){
+					//
+				}else{
+					foreach ($action as $delete => $val){
+						if ($delete === "deleteOld" ){
+							if ($memo['oldTags'][$idx][$val]['label'] === 'rem'){
+								$memo['oldTags'][$idx][$val]['label'] = 'del';
+							}else{
+								unset($memo['oldTags'][$idx][$val]);
+							}
+						}elseif ($delete === "recoverOld"){
+							$memo['oldTags'][$idx][$val]['label'] = 'rem';
+						}else{
+							$memo['newTags'][$idx] = array_diff($memo['newTags'][$idx], array($val));
+							$memo['newTags'][$idx] = array_values($memo['newTags'][$idx]);
+						}
+					}
+				}	                                                                                                                                                                                                                             
+			}
+		}
+		return view('memos.edit')->with(['formats' => $formats, 'theme_id' => $theme->id, 'memo' => $memo]);
+	}
+
 
 	public function getFormats(Theme $theme)
 	{
@@ -88,7 +153,6 @@ class MemoController extends Controller
 	}
 
 	public function store($formats, $theme_id, $memo){
-		//dd($memo);
 		// add new data to memos table
 		$newMemo = new Memo;
 		$newMemo->fill([
@@ -99,9 +163,8 @@ class MemoController extends Controller
 
 		// add to texts, tags, tag_rels 
 		foreach ($formats as $format){
-			$idx = $format->order - 1;
+			$idx = $format->order;
 			if ($format->item_id == 1){
-
 				// add new tag
 				if (! is_null($memo['newTags'][$idx])){
 					foreach ($memo['newTags'][$idx] as  $newTagName){
