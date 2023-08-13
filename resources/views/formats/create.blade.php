@@ -42,9 +42,9 @@
 	    </form>
         </div>
 	</body>
-    </x-app-layout>
         <div class="footer">
             <a href="{{ route('theme.select') }}">戻る</a>
-        </div>
+	</div>
+     </x-app-layout>
 </html>
 

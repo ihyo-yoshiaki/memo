@@ -45,7 +45,7 @@ Route::controller(MemoController::class)->middleware(['auth'])->group(function()
 	Route::post('/themes/{theme}/memos/create', 'createSecond')->name('memo.createSecond');
 	Route::get('/themes/{theme}/memos/{memo}', 'show')->name('memo.show');  // show contents of the memo 
 	Route::get('/themes/{theme}/memos/{memo}/edit', 'editFirst')->name('memo.editFirst');  // 
-	//Route::post('/themes/{theme}/memos/{memo}/edit', 'editSecond')->name('memo.editSecond');
+	Route::post('/themes/{theme}/memos/{memo}/edit', 'editSecond')->name('memo.editSecond');
         Route::delete('themes/{theme}/memos/{memo}', 'delete')->name('memo.delete');
 });
 

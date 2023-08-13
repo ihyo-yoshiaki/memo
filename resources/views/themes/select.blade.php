@@ -20,10 +20,10 @@
                     <option value="{{ $theme->id }}">{{ $theme->name }}</option>
 		@endforeach
 		</select>
-                <button type="submit" value="send" class="btn btn-blue">決定</button>
+                <button class="bg-gray-500 font-semibold text-white py-2 px-4 rounded">決定</button>
 	    </form>
 	</div>
-	<div class=='create'>
+	<div class='create'>
             <a href="{{ route('format.createFirst') }}" class="text-blue-500 underline hover:text-blue-700">新規テーマを作成する</a>
 	</div>
         </body>

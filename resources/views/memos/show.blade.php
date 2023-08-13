@@ -11,13 +11,14 @@
         メモ閲覧
     </x-slot>
     <body>
-	<h1>{{ $memo->title }}</h1>
+        <h4>メモタイトル</h4>
+	<h1 class="text-lg">{{ $memo->title }}</h1>
 	   @foreach ($formats as $format)
 	       <h5>{{ $format->name }}({{ $format->item->name }})</h5>
                @if ($format->item->id == 1)
 	           @foreach ($format->tag_rels as $tag_rel )
 	               @if ($tag_rel->memo_id == $memo->id)
-                           <p>{{ $tag_rel->tag->name }}</p>
+			   <button type="button" class="bg-gray-500 text-white text-sm px-2 py-1 rounded">{{ $tag_rel->tag->name }}</button>
                        @endif
                    @endforeach
 	       @else
@@ -27,11 +28,10 @@
                        @endif
                    @endforeach
                @endif
-           @endforeach
-        </div>
-	<div class='footer'>
-            <a href="{{ route('theme.index', ['theme' => $memo->theme->id]) }}">戻る</a>
-        </div>
+	       @endforeach
+	<div class="return">
+	<a href="{{ route('theme.index', ['theme' => $memo->theme->id]) }}"  class="text-blue-500 underline hover:text-blue-700">戻る</a>
+	</div>
     </body>
     </x-app-layout>
 </html>
